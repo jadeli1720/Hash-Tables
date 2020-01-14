@@ -4,21 +4,21 @@ class DynamicArray:
         self.capacity = capacity                    #How much total space is currently allocated wether we are using it or not
         self.storage = [None] * self.capacity       #self.storage is our pointer?
 
-    def insert(self, index, value):
+    def insert(self, index, value):                 #checking if there is any room to add
         if self.count == self.capacity:
             self.resize()
             return
         
-        #Shift everything to the right"
+        #Shift everything to the right 1 space
                         #starting, stopping
         for i in range(self.count, index, -1):
             self.storage[i] = self.storage[i - 1]
 
-        #Insert our value:
+        #Insert our value and increase the count of how much memory is being used by 1:
         self.storage[index] = value
         self.count += 1
 
-    def append(self, value):
+    def append(self, value):                      #appending the new value
         self.insert(self.count, value)
 
     def resize(self):
