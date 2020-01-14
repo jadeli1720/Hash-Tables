@@ -4,7 +4,7 @@ import statistics
 
 def how_many_before_collisions(buckets, loops=1):
     """
-    Roll random hashes into 'buckets' (indices) and print
+    Roll random hashes into 'buckets' (capacity) and print
     how many rolls before a hash collision.
 
     Run 'loops' number of times
@@ -29,9 +29,13 @@ def how_many_before_collisions(buckets, loops=1):
         result = tries / buckets * 100
         results.append(result)
         
-        print(f"{buckets} buckets, {tries} hashes beforecollision. ({result:.1f}%)")
-        
-    print(statistics.mean(results))
+        print(f"\nBuckets: {buckets}\nHashes Before Collision: {tries} ({tries / buckets * 100:.1f}%)\n") # --> cleaner print statement
+        # print(f"\nBuckets: {buckets}\nHashes Before Collision: {tries} ({result:.1f}%)\n") # --> cleaner print statement
+    
+    # print(statistics.mean(results))
+    # print(f"Results: {results}\n") # --> cleaner print statement
+    print(f"Average of 'Results' Array: {statistics.mean(results)} hashes before collision\n") # --> cleaner print statement
+    
 
 
 how_many_before_collisions(32, 10)
