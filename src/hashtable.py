@@ -93,7 +93,7 @@ class HashTable:
         index = self._hash_mod(key)
         current_key = self.storage[index]
         while current_key:
-            if current_key.key ! = key:
+            if current_key.key != key:
                 current_key = current_key.next
                 print("Current Key",current_key)
             else:
