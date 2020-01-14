@@ -7,6 +7,10 @@ class LinkedPair:
         self.value = value
         self.next = None        # next is the pointer
 
+    def __repr__(self):
+        return f"Key = {self.key}, Value = {self.value}"
+    
+
 class HashTable:
     '''
     A hash table that with `capacity` buckets
@@ -15,6 +19,9 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity      # Number of buckets in the hash table
         self.storage = [None] * capacity
+
+    def __repr__(self):
+        return f"Storage = {self.storage}"
 
 
     def _hash(self, key): #done
@@ -51,25 +58,31 @@ class HashTable:
 
         Fill this in.
         '''
+
         # traverse down the linked list to see if the key is already there
-        
         index = self._hash_mod(key)
         # print("Index", index)
-        current_value = self.storage[index]
-        # print("Current Value", current_value) # prints to none --> pointer helps us to move through list
+        current_pair = self.storage[index] # node 
+        # print("Current Pair", current_pair.key) # prints to none --> pointer helps us to move through list
+        last_pair = None #pointer
 
-        if current_value is not None:
+        while current_pair is not None and current_pair.key is not key :
+            # print("while statement")
+            last_pair = current_pair
+            current_pair = last_pair.next
+
+        if current_pair is not None:
             # if the key does exist, than you want to overwrite the value
-            print("Warning", value, "is overwriting", current_value.value)
-            newLinkedPair = LinkedPair(key, value)
-            newLinkedPair.next = current_value
-            current_value = newLinkedPair 
+            # print("Hitting top of if statement", current_pair.value)
+            current_pair.value = value
             
         else: # if we hit none or null, then we know it's not there
             # add to the end of the link list (creating a new value)
-            current_value = LinkedPair(key, value)
-        
-        
+            newLinkedPair = LinkedPair(key,value)
+            newLinkedPair.next = self.storage[index]
+            self.storage[index] = newLinkedPair 
+            print("In else statement",self.storage[index])
+
         
     def remove(self, key):
         '''
@@ -91,15 +104,15 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
+        # print("Retrieve index",index)
         current_key = self.storage[index]
         while current_key:
             if current_key.key != key:
                 current_key = current_key.next
-                print("Current Key",current_key)
+                # print("Current Key",current_key)
             else:
                 return current_key.value
-        return None
-
+        return None    
 
     def resize(self):
         '''
@@ -111,6 +124,14 @@ class HashTable:
         pass
 
 
+# myHt = HashTable(2)
+
+# # print(myHt)
+
+# myHt.insert("grapes", 12)
+# print(myHt)
+#     # print("ht", ht)
+# print('Retirieve',myHt.retrieve('grapes'))
 
 if __name__ == "__main__":
     ht = HashTable(2)
@@ -119,12 +140,10 @@ if __name__ == "__main__":
     ht.insert("line_2", "Filled beyond capacity")
     ht.insert("line_3", "Linked list saves the day!")
 
-    print("")
-
     # Test storing beyond capacity
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+    print('Retrieve line 1',ht.retrieve("line_1"))
+    print('Retrieve line 2',ht.retrieve("line_2"))
+    print('Retrieve line 3',ht.retrieve("line_3"))
 
     # Test resizing
     old_capacity = len(ht.storage)
@@ -133,9 +152,9 @@ if __name__ == "__main__":
 
     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    # Test if data intact after resizing
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+    # # Test if data intact after resizing
+    # print(ht.retrieve("line_1"))
+    # print(ht.retrieve("line_2"))
+    # print(ht.retrieve("line_3"))
 
-    print("")
+    # print("")

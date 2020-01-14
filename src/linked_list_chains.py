@@ -22,6 +22,7 @@ def longest_linked_list_chain(keys, buckets, loops =10):
             if key_counts[key] > largest_number:
                 largest_number = key_counts[key]
 
-        print(f"Longest Linked List Chain for {keys} keys in {buckets} buckets (Load Factor: {keys/buckets:.2f}): {largest_number}")
+        # print(f"Longest Linked List Chain for {keys} keys in {buckets} buckets (Load Factor: {keys/buckets:.2f}): {largest_number}")
+        print(f"\nNumber of Keys: {keys}\nNumber of Buckets: {buckets}\nLongest L.L. Chain (Load Factor: {keys/buckets:.2f}): {largest_number}\n")
 
 longest_linked_list_chain(1024, 128, 5)
