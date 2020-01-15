@@ -19,6 +19,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity      # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.count = 0
 
     def __repr__(self):
         return f"Storage = {self.storage}"
@@ -81,7 +82,7 @@ class HashTable:
             newLinkedPair = LinkedPair(key,value)
             newLinkedPair.next = self.storage[index]
             self.storage[index] = newLinkedPair 
-            print("In else statement",self.storage[index])
+            # print("In else statement",self.storage[index])
 
         
     def remove(self, key):
@@ -92,7 +93,28 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        
+
+        if self.storage[index] is None:
+            print(f"Warning: {self.key} is not found")
+
+        else:
+            current_key = self.storage[index]
+            previous_key = None
+
+            while current_key:
+                if current_key.key == key:
+                    # 1. at the end of linked pair chain
+                    if current_key.next == None: # if current_key.next point to None
+                        previous_key.next = None #re-direct the pointer to 
+                    # 2. in the middle
+                    # 3. at the beggining
+                        # if previous_key=None
+                else:
+                    previous_key = current_key # Keeping track of what came before
+                    current_key = current_key.next # haven't found it
+                    
 
 
     def retrieve(self, key):
@@ -121,7 +143,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2 # double capacity
+        new_storage = self.storage #define temporary new storage
+        self.storage = [None] * self.capacity # extending the old storage
+        
+        for each_node in new_storage: #for each node/bucket in the new storage
+            current_node = each_node  #create iterator for each node
+            while current_node: #insert the key and value
+                self.insert(current_node.key, current_node.value)
+                current_node = current_node.next #changing the pointer 
 
 
 # myHt = HashTable(2)
@@ -131,7 +161,7 @@ class HashTable:
 # myHt.insert("grapes", 12)
 # print(myHt)
 #     # print("ht", ht)
-# print('Retirieve',myHt.retrieve('grapes'))
+# print('Retrieve',myHt.retrieve('grapes'))
 
 if __name__ == "__main__":
     ht = HashTable(2)
