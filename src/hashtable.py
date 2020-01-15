@@ -94,26 +94,43 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        
+        current_node = self.storage[index]
+        last_node = None
 
-        if self.storage[index] is None:
-            print(f"Warning: {self.key} is not found")
+        # if self.storage[index] is None:
+        #     print(f"Warning: The entry with the key '{key}' could not be found")
 
+        # else:
+        #     current_key = self.storage[index]
+        #     previous_key = None
+
+            # while current_key:
+            #     if current_key.key == key:
+            #         # 1. at the end of linked list chain
+            #         if current_key.next is None: # if current_key.next points to None
+            #             previous_key.next = None #re-direct the pointer to connect previous key to None
+            #         # 2. at the beggining of linked list chain
+            #         if previous_key is None:
+            #             current_key = previous_key.next
+            #         # 3. in the middle of linked list chain
+            #         else:
+            #             previous_key.next = current_key.next
+
+            #     else:
+            #         previous_key = current_key # Keeping track of what came before
+            #         current_key = current_key.next # haven't found it
+
+        while current_node is not None and current_node.key !=key:
+            last_node = current_node # Keeping track of what came before
+            current_node = last_node.next # haven't found it
+
+        if current_node is None:
+            print(f"Warning: The entry with the key '{key}' could not be found")
         else:
-            current_key = self.storage[index]
-            previous_key = None
-
-            while current_key:
-                if current_key.key == key:
-                    # 1. at the end of linked pair chain
-                    if current_key.next == None: # if current_key.next point to None
-                        previous_key.next = None #re-direct the pointer to 
-                    # 2. in the middle
-                    # 3. at the beggining
-                        # if previous_key=None
-                else:
-                    previous_key = current_key # Keeping track of what came before
-                    current_key = current_key.next # haven't found it
+            if last_node is None:
+                self.storage[index] = current_node.next
+            else:
+                last_node.next = current_node.next
                     
 
 
@@ -166,25 +183,28 @@ class HashTable:
 if __name__ == "__main__":
     ht = HashTable(2)
 
-    ht.insert("line_1", "Tiny hash table")
-    ht.insert("line_2", "Filled beyond capacity")
-    ht.insert("line_3", "Linked list saves the day!")
+    # ht.insert("line_1", "Tiny hash table")
+    # ht.insert("line_2", "Filled beyond capacity")
+    # ht.insert("line_3", "Linked list saves the day!")
 
-    # Test storing beyond capacity
-    print('Retrieve line 1',ht.retrieve("line_1"))
-    print('Retrieve line 2',ht.retrieve("line_2"))
-    print('Retrieve line 3',ht.retrieve("line_3"))
+    # # Test storing beyond capacity
+    # print('Retrieve line 1',ht.retrieve("line_1"))
+    # print('Retrieve line 2',ht.retrieve("line_2"))
+    # print('Retrieve line 3',ht.retrieve("line_3"))
 
-    # Test resizing
-    old_capacity = len(ht.storage)
-    ht.resize()
-    new_capacity = len(ht.storage)
+    # # Test resizing
+    # old_capacity = len(ht.storage)
+    # ht.resize()
+    # new_capacity = len(ht.storage)
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    # print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
     # # Test if data intact after resizing
     # print(ht.retrieve("line_1"))
     # print(ht.retrieve("line_2"))
     # print(ht.retrieve("line_3"))
 
-    # print("")
+    # print("ht", ht)
+    
+    # print("Removed", ht.remove("line_4"))
+    print("Removed", ht.remove("line_1"))
